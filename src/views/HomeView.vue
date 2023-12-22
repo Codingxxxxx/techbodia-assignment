@@ -14,7 +14,9 @@ const router = useRouter()
 
 const state = reactive({
   currentPage: 0,
-  limit: 25
+  limit: 25,
+  searchTerm: '',
+  searchBy: ''
 })
 
 watchEffect(() => {
@@ -24,6 +26,7 @@ watchEffect(() => {
 })
 
 watchEffect(() => {
+  console.log(countryStore.state.countries)
   paginationStore.actions.init(state.currentPage, state.limit, countryStore.state.countries)
 })
 
@@ -38,9 +41,14 @@ const columns = [
 ]
 
 const handleOrderBy = (evt) => {
-  const selectedOption = evt.target.value;
-  countryStore.actions.sort(selectedOption)
+  state.searchBy = evt.target.value;
+  countryStore.actions.search(state.searchTerm, state.searchBy)
   router.push({ path: '/page/1' })
+}
+
+const handleSearch = (evt) => {
+  state.searchTerm = evt.target.value
+  countryStore.actions.search(state.searchTerm, state.searchBy)
 }
 </script>
 
@@ -48,9 +56,13 @@ const handleOrderBy = (evt) => {
   <main class="vh-100">
     <div>
       <div class="p-3">
-        <div class="d-flex">
+        <div class="d-flex mb-2">
+          <!-- search box -->
+          <div>
+            <input id="search" placeholder="Search country..." class="form-control" @input="handleSearch">
+          </div>
           <!-- order by -->
-          <div id="orderByWrapper" class="input-group mb-2 ms-auto">
+          <div id="orderByWrapper" class="input-group ms-auto">
             <span class="input-group-text">
               <i class="bi bi-sort-down"></i>
             </span>
@@ -81,6 +93,10 @@ const handleOrderBy = (evt) => {
 }
 
 #orderBy {
+  font-size: .875rem;
+}
+
+#search {
   font-size: .875rem;
 }
 </style>

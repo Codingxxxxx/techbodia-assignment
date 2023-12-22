@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 
 export const useCountryStore = defineStore('country', () => {
   const state = reactive({
+    source: [],
     countries: []
   })
 
@@ -11,16 +12,28 @@ export const useCountryStore = defineStore('country', () => {
   const actions = {
     async fetchData() {
       const res = await fetch(`${apiHost}/all`)
-      state.countries = await res.json()
-      actions.sort('asc') // sort by asc by default
+      state.source = await res.json()
+      actions.search('', 'asc') // sort by asc by default
     },
-    sort(option) {
-      if (option === 'asc') {
-        state.countries = [ ...state.countries ].sort((a, b) => {
+    search(term, sort) {
+      let results = []
+
+      if (term) { 
+        results = [ ...state.source ].filter(country => {
+          const searchRegex = new RegExp(term, 'ig')
+          return searchRegex.test(country.name.official)
+        })
+      } else {
+        results = [ ...state.source ]
+      }
+
+      // sort
+      if (sort === 'asc') {
+        state.countries = results.sort((a, b) => {
           return a.name.official.localeCompare(b.name.official)
         })
       } else {
-        state.countries = [ ...state.countries ].sort((a, b) => {
+        state.countries = results.sort((a, b) => {
           return b.name.official.localeCompare(a.name.official)
         })
       }
