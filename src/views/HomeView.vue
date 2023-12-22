@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, watchEffect } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import Table from '@/components/Table.vue'
 import Pagination from '@/components/Pagination.vue'
 
@@ -10,6 +10,7 @@ import { usePaginationStore } from '@/stores/pagination'
 const countryStore = useCountryStore()
 const paginationStore = usePaginationStore()
 const route = useRoute()
+const router = useRouter()
 
 const state = reactive({
   currentPage: 0,
@@ -39,7 +40,7 @@ const columns = [
 const handleOrderBy = (evt) => {
   const selectedOption = evt.target.value;
   countryStore.actions.sort(selectedOption)
-  console.log(countryStore.state.countries)
+  router.push({ path: '/page/1' })
 }
 </script>
 
@@ -54,7 +55,7 @@ const handleOrderBy = (evt) => {
               <i class="bi bi-sort-down"></i>
             </span>
             <select id="orderBy" class="form-select" @input="handleOrderBy">
-              <option value="asc">ASC</option>
+              <option selected value="asc">ASC</option>
               <option value="des">DES</option>
             </select>
           </div>

@@ -1,4 +1,4 @@
-import { computed, reactive, watch } from 'vue'
+import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useCountryStore = defineStore('country', () => {
@@ -12,15 +12,16 @@ export const useCountryStore = defineStore('country', () => {
     async fetchData() {
       const res = await fetch(`${apiHost}/all`)
       state.countries = await res.json()
+      actions.sort('asc') // sort by asc by default
     },
     sort(option) {
       if (option === 'asc') {
-        state.countries = state.countries.sort((a, b) => {
-          return a > b
+        state.countries = [ ...state.countries ].sort((a, b) => {
+          return a.name.official.localeCompare(b.name.official)
         })
       } else {
-        state.countries = state.countries.sort((a, b) => {
-          return b > a
+        state.countries = [ ...state.countries ].sort((a, b) => {
+          return b.name.official.localeCompare(a.name.official)
         })
       }
     }
