@@ -4,7 +4,8 @@ import { defineStore } from 'pinia'
 export const useCountryStore = defineStore('country', () => {
   const state = reactive({
     source: [],
-    countries: []
+    countries: [],
+    isFetching: true
   })
 
   const apiHost = import.meta.env.VITE_API_HOST 
@@ -14,6 +15,7 @@ export const useCountryStore = defineStore('country', () => {
       const res = await fetch(`${apiHost}/all`)
       state.source = await res.json()
       actions.search('', 'asc')
+      state.isFetching = false
     },
     search(term, sort) {
       let results = []

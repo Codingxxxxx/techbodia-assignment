@@ -113,7 +113,13 @@ onMounted(() => {
             </select>
           </div>
         </div>
-        <Table class="border" :columns="columns" :rows="paginationStore.state.paginationList" :on-country-name-clicked="onCountryNameClicked" />
+        <Table 
+          class="border" 
+          :columns="columns" 
+          :rows="paginationStore.state.paginationList" 
+          :on-country-name-clicked="onCountryNameClicked" 
+          :show-loading="countryStore.state.isFetching"
+          />
         <Pagination 
           v-if="paginationStore.state.ready && paginationStore.state.paginationList.length > 0"
           :current-page="paginationStore.state.currentPage"

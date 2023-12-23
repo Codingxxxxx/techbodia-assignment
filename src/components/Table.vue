@@ -1,8 +1,11 @@
 <script setup>
+import Loader from '@/components/Loader.vue'
+
 const props = defineProps({
   columns: Array,
   rows: Array,
-  onCountryNameClicked: Function
+  onCountryNameClicked: Function,
+  showLoading: Boolean
 })
 </script>
 
@@ -39,7 +42,10 @@ const props = defineProps({
     </tbody>
     <tbody v-else>
       <tr>
-        <td class="text-danger text-center py-4" colspan="8">No results found!</td>
+        <td class="text-center py-4" colspan="8">
+          <Loader :show="props.showLoading" loading-title="Fetching Data..." />
+          <span class="text-danger" v-if="!props.showLoading">No results found!</span>
+        </td>
       </tr>
     </tbody>
   </table>
