@@ -13,7 +13,7 @@ const props = defineProps({
         <th scope="col" class="text-nowrap" v-for="(column, idx) in props.columns" :key="idx">{{ column }}</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody v-if="rows.length > 0">
       <tr v-for="(row, idx) in rows" :key="idx">
         <td>
           <img class="border rounded" :src="row.flags.svg" :alt="row.name.official" width="64px" height="auto" />
@@ -37,6 +37,11 @@ const props = defineProps({
         </td>
       </tr>
     </tbody>
+    <tbody v-else>
+      <tr>
+        <td class="text-danger text-center py-4" colspan="8">No results found!</td>
+      </tr>
+    </tbody>
   </table>
 </template>
 
@@ -48,12 +53,11 @@ table > thead th {
 }
 
 .countryname {
-  text-decoration: none;
+  text-decoration: underline;
   color: inherit;
 }
 .countryname:hover {
   color: var(--bs-primary);
-  text-decoration: underline;
   cursor: pointer;
 }
 </style>

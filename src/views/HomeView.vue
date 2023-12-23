@@ -102,7 +102,7 @@ onMounted(() => {
         </div>
         <Table class="border" :columns="columns" :rows="paginationStore.state.paginationList" :on-country-name-clicked="onCountryNameClicked" />
         <Pagination 
-          v-if="paginationStore.state.ready"
+          v-if="paginationStore.state.ready && paginationStore.state.paginationList.length > 0"
           :current-page="paginationStore.state.currentPage"
           :total-page="paginationStore.state.totalPage"
           :has-next="paginationStore.state.hasNext"
@@ -208,7 +208,7 @@ onMounted(() => {
             <li class="list-group-item">
               <span>Map (google): </span>
               <span class="info">
-                <a href="{{ state.selectedCountry.maps.googleMaps }}">{{ state.selectedCountry.maps.googleMaps }}</a>
+                <a :href="state.selectedCountry.maps.googleMaps" target="_blank">{{ state.selectedCountry.maps.googleMaps }}</a>
               </span>
             </li>
           </ul>
