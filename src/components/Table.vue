@@ -1,7 +1,8 @@
 <script setup>
 const props = defineProps({
   columns: Array,
-  rows: Array
+  rows: Array,
+  onCountryNameClicked: Function
 })
 </script>
 
@@ -17,7 +18,9 @@ const props = defineProps({
         <td>
           <img class="border rounded" :src="row.flags.svg" :alt="row.name.official" width="64px" height="auto" />
         </td>
-        <td class="text-nowrap">{{ row.name.official }}</td>
+        <td class="text-nowrap">
+          <a class="countryname" @click="props.onCountryNameClicked(row.cca2)">{{ row.name.official }}</a>
+        </td>
         <td>{{ row.cca2 }}</td>
         <td>{{ row.cca3 }}</td>
         <td>
@@ -42,5 +45,15 @@ table > thead th {
   padding: 1rem 1rem;
   font-size: .875rem;
   font-weight: 600;
+}
+
+.countryname {
+  text-decoration: none;
+  color: inherit;
+}
+.countryname:hover {
+  color: var(--bs-primary);
+  text-decoration: underline;
+  cursor: pointer;
 }
 </style>
