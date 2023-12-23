@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, watchEffect, onMounted, ref, watch } from 'vue'
+import { reactive, watchEffect, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Table from '@/components/Table.vue'
 import Pagination from '@/components/Pagination.vue'
@@ -61,6 +61,11 @@ const handleSearch = (evt) => {
   router.push('/page/1')
 }
 
+const handleShowEntries = (evt) => {
+  state.limit = Number(evt.target.value)
+  router.push('/page/1')
+}
+
 const onCountryNameClicked = (cca2) => {
   state.selectedCountry = countryStore.state.countries.find(country => country.cca2 === cca2)
   state.modalHandler.show()
@@ -85,6 +90,14 @@ onMounted(() => {
     <div>
       <div class="p-3">
         <div class="d-flex mb-2">
+          <!-- show entries -->
+          <div class="me-2">
+            <select id="showEntries" class="form-select" @input="handleShowEntries">
+              <option value="25" selected>25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
           <!-- search box -->
           <div>
             <input id="search" placeholder="Search country..." class="form-control" @input="handleSearch">
@@ -225,11 +238,7 @@ onMounted(() => {
   width: auto;
 }
 
-#orderBy {
-  font-size: .875rem;
-}
-
-#search {
+#orderBy, #search, #showEntries {
   font-size: .875rem;
 }
 
