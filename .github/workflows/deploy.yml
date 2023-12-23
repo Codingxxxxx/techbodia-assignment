@@ -25,8 +25,9 @@ jobs:
       run: |
         echo "VITE_MODE=${{ secrets.VITE_MODE }}" > .env.production
         echo "VITE_API_HOST=${{ secrets.VITE_API_HOST }}" >> .env.production
-        cp index.html 404.html
         npm run build
+        cd dist && cp index.html 404.html
+        cd ..
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
