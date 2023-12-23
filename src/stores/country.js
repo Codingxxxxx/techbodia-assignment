@@ -13,13 +13,13 @@ export const useCountryStore = defineStore('country', () => {
     async fetchData() {
       const res = await fetch(`${apiHost}/all`)
       state.source = await res.json()
-      actions.search('', 'asc') // sort by asc by default
+      actions.search('', 'asc')
     },
     search(term, sort) {
       let results = []
 
       if (term) { 
-        results = [ ...state.source ].filter(country => {
+        results = state.source.filter(country => {
           const searchRegex = new RegExp(term, 'ig')
           return searchRegex.test(country.name.official)
         })

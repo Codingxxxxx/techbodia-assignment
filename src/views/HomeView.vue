@@ -26,7 +26,6 @@ watchEffect(() => {
 })
 
 watchEffect(() => {
-  console.log(countryStore.state.countries)
   paginationStore.actions.init(state.currentPage, state.limit, countryStore.state.countries)
 })
 
@@ -49,6 +48,7 @@ const handleOrderBy = (evt) => {
 const handleSearch = (evt) => {
   state.searchTerm = evt.target.value
   countryStore.actions.search(state.searchTerm, state.searchBy)
+  router.push('/page/1')
 }
 </script>
 
