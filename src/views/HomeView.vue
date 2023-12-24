@@ -18,7 +18,7 @@ const state = reactive({
   currentPage: 0,
   limit: 25,
   searchTerm: '',
-  searchBy: '',
+  searchBy: 'asc',
   modalHandler: null,
   selectedCountry: null
 })
@@ -33,10 +33,6 @@ watchEffect(() => {
 
 watchEffect(() => {
   paginationStore.actions.init(state.currentPage, state.limit, countryStore.state.countries)
-})
-
-watchEffect(() => {
-  
 })
 
 const columns = [
